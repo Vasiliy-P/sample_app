@@ -1,11 +1,10 @@
 SampleApp::Application.routes.draw do
-  get "pages/home"
 
-  get "pages/contact"
+  match '/contact' => 'pages#contact'
 
-  get "pages/about"
+  match '/about' => 'pages#about'
 
-  get "pages/help"
+  match '/help' => 'pages#help'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -56,7 +55,7 @@ SampleApp::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+   root :to => 'pages#home'
 
   # See how all your routes lay out with "rake routes"
 
