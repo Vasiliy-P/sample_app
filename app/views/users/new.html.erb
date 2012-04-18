@@ -1,2 +1,4 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<h1>
+  <%= gravatar_image_tag @user.email %>
+  <%= @user.name %>
+</h1>

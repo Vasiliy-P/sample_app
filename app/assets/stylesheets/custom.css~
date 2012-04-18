@@ -105,7 +105,7 @@ a.signup_button {
 
 footer {
   text-align: center;
-  margin-top: 320px;
+  margin-top: 10px;
   width: 710px;
   margin-left: auto;
   margin-rigth: auto;
