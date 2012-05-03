@@ -23,7 +23,7 @@ describe UsersController do
         get 'show', 'id' => @user
         response.should have_selector("title", :content => @user.name)
      end
-    
+
      it "should include the user's name" do
         get :show, :id => @user
         response.should have_selector("h1", :content => @user.name)
@@ -32,7 +32,7 @@ describe UsersController do
      it "should have a profale image" do
         get :show, :id => @user
         response.should have_selector("h1>img", :class => "gravatar")
-     end    
+     end
    end
 
   describe "GET 'new'" do
@@ -41,17 +41,37 @@ describe UsersController do
       get 'new'
       response.should be_success
     end
-   
+
     it "should have the right title" do
       get 'new'
       response.should have_selector("title", :content => "Sign up")
     end
+
+    it "should have a name field" do
+      get 'new'
+      response.should have_selector("input[name='user[name]'][type='text']")
+    end
+
+    it "should have an email field" do
+      get 'new'
+      response.should have_selector("input[name='user[email]'][type='text']")
+    end
+
+    it "should have a password field" do
+      get 'new'
+      response.should have_selector("input[name='user[password]'][type='password']")
+    end
+
+    it "should have a password confirmation" do
+      get 'new'
+      response.should have_selector("input[name='user[password_confirmation]'][type='password']")
+    end
   end
 
   describe "POST 'create'" do
-   
+
       describe "failure" do
-     
+
         before(:each) do
           @attr = { :name => "", :email => "", :password => "", :password_confirmation => "" }
         end
@@ -66,7 +86,7 @@ describe UsersController do
             post :create, :user => @attr
             response.should have_selector("title", :content => "Sign up")
         end
-        
+
         it "should render the 'new' page" do
           post :create, :user => @attr
           response.should render_template('new')
@@ -94,7 +114,7 @@ describe UsersController do
          it "should have a welcome message" do
             post :create, :user => @attr
             flash[:success].should =~ /welcome to the sample app/i
-          end 
+          end
        end
     end
 end
