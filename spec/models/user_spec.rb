@@ -3,8 +3,8 @@ require 'spec_helper'
 describe User do
 
   before(:each) do
-     @attr = { 
-        :name => "Example User", 
+     @attr = {
+        :name => "Example User",
         :email => "user@example.com",
         :password => "foobar",
         :password_confirmation => "foobar"
@@ -58,7 +58,7 @@ describe User do
          User.create!(@attr.merge(:email => upcased_email))
          user_with_duplicate_email = User.new(@attr)
        user_with_duplicate_email.should_not be_valid
-        end   
+        end
 
     describe "password validations" do
 
@@ -83,10 +83,11 @@ describe User do
          hash = @attr.merge(:password => long, :password_confirmation => long)
          User.new(hash).should_not be_valid
       end
+  end
 end
 
     describe "password encryption" do
-    
+
       before(:each) do
         @user = User.create!(@attr)
       end
@@ -98,9 +99,9 @@ end
       it "should set the encrypted password" do
         @user.encrypted_password.should_not be_blank
       end
-  
+
     describe "has_password? method" do
- 
+
        it "should be true if the passwords match" do
           @user.has_password?(@attr[:password]).should be_true
         end
@@ -110,12 +111,12 @@ end
         end
 
       describe "authenticate method" do
-   
+
          it "should return nil on email/password mismatch" do
            wrong_password_user = User.authenticate(@attr[:email], "wrongpass")
            wrong_password_user.should be_nil
          end
-        
+
          it "should return nil for an email address with no user" do
             nonexistent_user = User.authenticate(bar@foo.com, @attr[:password])
             nonexistent_user.should be_nil
@@ -125,6 +126,26 @@ end
             matching_user = User.authenticate(@attr[:email], @attr[:password])
             matching_user.should == @user
         end
+      end
+    end
+
+    describe "admin attribute" do
+
+      before(:each) do
+        @user = User.create!(@attr)
+      end
+
+      it "should respond to admin" do
+        @user.should respond_to(:admin)
+      end
+
+      it "should not be an admin by default" do
+        @user.should_not be_admin
+      end
+
+      it "should be convertible to an admin" do
+        @user.toggle!(:admin)
+        @user.should be_admin
       end
     end
   end
